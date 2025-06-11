@@ -1,11 +1,3 @@
-# Installation des dépendances
-!pip install -q streamlit pandas
-!wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O cloudflared -q
-!chmod +x cloudflared
-
-# Création du fichier app.py
-with open("app.py", "w") as f:
-    f.write('''
 import streamlit as st
 import math
 import pandas as pd
@@ -383,20 +375,6 @@ elif page == "⚙️ Paramètres":
         st.number_input("Taux Heures Sup", value=AREIntermittent.PARAMS[8]["taux_heures_sup"], format="%.2f", disabled=True)
         st.number_input("Partie C (fixe)", value=AREIntermittent.PARAMS[8]["partie_c"], format="%.2f", disabled=True)
 
-    # st.subheader("Coefficients Annexe 10 (Artistes) - Formule A+B+C")
-    # st.info("Ces coefficients sont conservés pour information, mais la formule principale pour Annexe 10 est 'SJR + bonus cachets'.")
-    # col1, col2, col3 = st.columns(3)
-    # with col1:
-    #     st.number_input("Seuil Salaire (€)", value=AREIntermittent.PARAMS[10]["seuil_salaire"], disabled=True)
-    #     st.number_input("Taux Salaire Inf", value=AREIntermittent.PARAMS[10]["taux_salaire_inf"], format="%.2f", disabled=True)
-    # with col2:
-    #     st.number_input("Seuil Heures", value=AREIntermittent.PARAMS[10]["seuil_heures"], disabled=True)
-    #     st.number_input("Taux Heures Inf", value=AREIntermittent.PARAMS[10]["taux_heures_inf"], format="%.2f", disabled=True)
-    # with col3:
-    #     st.number_input("Taux Salaire Sup", value=AREIntermittent.PARAMS[10]["taux_salaire_sup"], format="%.2f", disabled=True)
-    #     st.number_input("Taux Heures Sup", value=AREIntermittent.PARAMS[10]["taux_heures_sup"], format="%.2f", disabled=True)
-    #     st.number_input("Partie C (fixe)", value=AREIntermittent.PARAMS[10]["partie_c"], format="%.2f", disabled=True)
-
     # Note sur les bonus (pour retirer l'affichage des anciens bonus des paramètres)
     st.subheader("Anciens bonus spécifiques (désactivés)")
     st.info("Les bonus 'Majoration 30% cachets 6h' et '+5€ après 60 cachets' ne sont pas intégrés dans le calcul ARE des annexes 8 et 10 selon les règles officielles d'Unédic pour le moment. Ils sont désactivés pour plus de précision.")
@@ -413,8 +391,4 @@ elif page == "⚙️ Paramètres":
 
 # Initialisation
 charger_parametres()
-''')
 
-# Lancement
-!nohup streamlit run app.py --server.port 8501 > logs.txt 2>&1 &
-!./cloudflared tunnel --url http://localhost:8501
